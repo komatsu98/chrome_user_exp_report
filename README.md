@@ -44,13 +44,13 @@ Hiệu năng của nội dung web có thể ảnh hưởng rất nhiều bởi l
 “ Cho thấy hiệu quả loại kết nối (“slow-2g”, “2g”, “3g”, “4g”, hay “offline”) bằng việc xác định các giá trị round-trip và bandwidth dựa trên quan sát đo lường trên người dùng thực.”
 
 ##### Loại thiết bị
-Pha (“phone”, “tablet”, or “desktop”), as communicated via User-Agent.
+Phân loại các thiết bị (“phone”, “tablet”, hay “desktop”), kết nối thông qua User-Agent.
 
-##### Country
-Geographic location of users at the country-level, inferred by their IP address. Countries are identified by their respective ISO 3166-1 alpha-2 codes.
+##### Đất nước
+Vị trí địa lý của người  dùng tại country-level,  suy ra từ địa chỉ I{. Các nước được định danh  bằng  các code ISO 3166-1 alpha-2 tương ứng.
 
-##### Data format
-The report is provided via Google BigQuery as a collection of datasets containing user experience metrics aggregated to origin-resolution. Each dataset represents a single country, country_rs captures user experience data for users in Serbia (rs is the ISO 31611-1 code for Serbia). Additionally, there is a globally aggregated dataset (all) that captures the world-wide experience. Each row in the dataset contains a nested record of user experience for a particular origin, split by key dimensions.
+##### Dạng dữ liệu
+Báo cáo được cung cấp bởi Google BigQuery là 1 bộ các tập dữ liệu chứa các chỉ số trải nghiệm người dùng tổng hợp đến các quyết định nguồn. Mỗi tập dữ liệu đại diện cho 1 nước, country_rs đại diện dữ liệu trải nghiệm người dùng với các người dùng ở Serbia(rs là mã ISO 31611-1 của Serbia) Thêm vào đó, có 1 tập dữ liệu  tổng hợp toàn cầu(tất cả)  thể hiện trải nghiệm toàn cầu. Mỗi dòng của tập dữ liệu bao gồm 1 bản ghi liên kết của trải nghiệm người dùng  cho 1 nguồn cụ thể, phân tách bằng khóa của các  khía cạnh.
 
 Ví dụ, bảng bên trên hiển thị 1 mẫu bản ghi từ báo cáo trải nghiệm người dùng Chrome, chỉ ra rằng 12.3% lượt tải trạng có 1 độ đo "first paint time" nằm trong khoảng 1000-1200 milli giây khi tải "http://example.com" trên thiết bị điện thoại qua kết nối dạng "4g". Để đạt các  các giá trị tổng hợp trải nghiệm người dùng  lần đầu dưới 1200 mili giây, bạn có thể tăng lên các bản ghi mà có biểu đồ giá trị "end" nhỏ hơn hoặc bằng 1200.
 
@@ -64,20 +64,15 @@ Ví dụ, sự khác nhau về lượng người dùng truy cập 1 nguồn tran
 
 Khi biểu hiện các so sánh trực tiếp giữa các trang nguồn, điều quan trọng là phải thống kê và kiểm soát lưu lượng người dùng khác nhau: phân chia từ những khía cạnh được cung cấp, ví dụ như là loại thiết bị và loại kết nối, cùng với đó cấn nhắc những yếu tốt bên ngoài như là lượng kết nối, các nước truy cập vào trang nguồn, vân vân.
 
+### Giả sử có sự khác biệt  kích thước truy cập giữa các nguồn trang
+Báo cáo trải nghiệm người dùng Chrome tổng hợp dữ liệu cho mỗi nguồn, với giá trị "density" qua các biểu đồ chỉ số- khía cạnh tổng bằng 1. Điều này cung cấp cái nhìn khách quan đến ảnh hưởng của trải nghiệm qua các khía cạnh quan trọng đối với 1 nguồn cụ thể
 
 
+Tuy nhiên, khi tổng hợp dữ liệu từ nhiều nguồn, ví dụ dọc theo 1 ngành công nghiệp hay 1 vùng địa lý, hãy cẩn thận với các loại tổng kết được vẽ ra: thêm  vào mật độ với cùng chỉ số cho các nguồn trang  không tính toán lưu lượng tương đối khác nhau qua các nguồn.
 
+Ví dụ, trang A có thể có 10 triệu truy cập, trong khi trang B có 10 ngàn. Trong cả 2 trường hợp, biểu đồ mật độ với mỗi trang có tổng là 1, và tập dữ liệu không cung cấp bất kỳ số liệu tuyệt đối nào về kích thước lưu lượng của từng nguồn riêng biệt, hay kích thước lưu lượng tương đối khác nhau giữa các nguồn. Dĩ nhiên, nếu bạn thêm mật độ từ A và B, và giá trị trung bình của các kết quả, bạn sẽ coi chúng tương đương ngay cả khi A có lưu lượng lớn gấp 1000 lần.
 
+### Giả sử lưu lượng Chrome khác biệt
+Báo cáo trải nghiệm người dùng được cung cấp vởi các phép đo dựa trên người dùng thực tế được tổng hợp từ người dùng được lựa chọn để đồng bộ lịch sử duyệt web của họ,chưa cài đặt 1 cụm bảo mật Đồng bộ, và đã sử dụng báo cáo thống kê. Lưu lượng có thể không đại diện cho phần lớn người dùng trên những nguồn cụ thể và nhiều nguồn có thể có những lưu lượng khác những cái khác. Vì thế, dữ liệu này không dùng cho những người dùng với trình duyệt khác nhau và sự khác biệt ở thành phần phụ của trình duyệt trên những vùng địa lý khác nhau.
 
-
-
-
-
-
-
-
-
-
-
-
-a
+Vì thế, hãy cẩn thận với các loại kết luận khác nhau được vẽ ra khi nhìn vào phần giao nhau giữa các nguồn, và khi so sánh nhưng nguồn riêng biệt: trnah sự dụng các so sánh tuyệt đối và xem xét các đường khía cạnh khác trong phần tren.
